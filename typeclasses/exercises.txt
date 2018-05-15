@@ -1,0 +1,4 @@
+Type Kwon Do Twp: 1
+chk :: Eq b => (a -> b) -> a -> b -> Bool; chk fn a b = (fn a) == b
+
+arith :: Num b => (a -> b) -> Integer -> a -> b; arith fun inte a = fromInteger inte + (fun a)
