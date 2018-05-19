@@ -58,3 +58,37 @@ capitalizeSentence "woot" = "WOOT"
 capitalizeSentence (c:cs) = toUpper c : cs
 
 flUpper = toUpper . head
+
+myOr :: [Bool] -> Bool
+myOr [] = False
+myOr (x:xs) = x || myOr xs
+
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny _ [] = False
+myAny fn (x:xs) = fn x || myAny fn xs
+
+myElem :: Eq a => a -> [a] -> Bool
+myElem a as = myAny (==a) as
+
+myReverse :: [a] -> [a]
+myReverse [] = []
+myReverse (x:xs) = myReverse xs ++ [x]
+
+mySquish :: [[a]] -> [a]
+mySquish [] = []
+mySquish (l:ls) = l ++ mySquish ls
+
+mySquishMap :: (a -> [b]) -> [a] -> [b]
+mySquishMap _ [] = []
+mySquishMap fn as = mySquish (map fn as)
+
+myMaximumBy :: (a -> a -> Ordering) -> [a] -> a
+--need exception case for empty list
+myMaximumBy fn (x:xs) = myTrackedMaxBy x fn xs where
+    myTrackedMaxBy m _ [] = m
+    myTrackedMaxBy m fn (x:xs)
+        |fn m x == LT = myTrackedMaxBy x fn xs
+        |otherwise = myTrackedMaxBy m fn xs
+
+myMaximum :: (Ord a) => [a] -> a
+myMaximum = myMaximumBy compare
