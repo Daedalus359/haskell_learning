@@ -29,3 +29,30 @@ seekritFunc x = div (sum (map length (words x))) (length (words x))
 --Ex3
 fractionalSeekrit :: String -> Double
 fractionalSeekrit x = (fromIntegral $ sum $ map length (words x)) / (fromIntegral $ length (words x))
+
+--Ex1
+myOr :: [Bool] -> Bool
+myOr = foldr (||) False
+
+--Ex2
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny f = myOr . map f
+
+--Ex3
+myElem :: Eq a => a -> [a] -> Bool
+myElem a = foldr (\x -> \b -> (x == a) || b) False
+--myElem a = any (==a)
+
+--Ex4
+myReverse :: [a] -> [a]
+myReverse xs = last xs : reverse (init xs)
+
+--Ex5
+myMap :: (a -> b) -> [a] -> [b]
+myMap f = foldr (\x -> \l-> f x : l) []
+
+--Ex6
+myFilter :: (a -> Bool) -> [a] -> [a]
+myFilter f = foldr (\x -> \l -> if f x then x : l else l) []
+
+--Ex7
