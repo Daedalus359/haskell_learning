@@ -1,0 +1,17 @@
+Bool is a type constant because it is a fully defined type unto itself.
+
+[] is a type constructor but not a type constant, because it needs to be paired with an argument before it fully defines a type.
+
+Query the "Kind signature" of a type constructor in GHCI with :k
+Prelude> :k []
+[] :: * -> * --this means that it must be applied to a type before it results in a type
+
+Tuples are anonymous product types
+
+Newtype gets a unary type constructor but adds not runtime overhead unlike data
+
+newtype also allows you to add typeclass instances to whatever type it includes
+
+if you want to *automatically derive* *custom* typeclass instances on your newtypes, compile with the {-# LANGUAGE GeneralizedNewtypeDeriving #-} pragma
+
+record syntax creates functions that go from the type they are a part of to the field in question
