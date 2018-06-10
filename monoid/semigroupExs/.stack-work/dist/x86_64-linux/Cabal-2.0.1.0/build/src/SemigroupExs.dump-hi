@@ -1,0 +1,312 @@
+
+==================== FINAL INTERFACE ====================
+2018-06-10 21:06:10.944665 UTC
+
+interface semigroupExs-0.1.0.0-HR4q0uIcquALSqjPWSqvlH:SemigroupExs 8022
+  interface hash: 00a080c737213193e8223448d74b3309
+  ABI hash: 91e8537067d475586ca4b6be7225debf
+  export-list hash: 193a599f25fa7ef2099d47bd89d30375
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: d3f9096bac2e1e79f6ff76d0840aa157
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  SemigroupExs.semigroupAssoc
+  SemigroupExs.TrivAssoc
+  SemigroupExs.Trivial{SemigroupExs.Trivial}
+module dependencies:
+package dependencies: QuickCheck-2.10.1 array-0.5.2.0
+                      base-4.10.1.0* containers-0.5.10.2 deepseq-1.4.3.0
+                      ghc-boot-th-8.2.2 ghc-prim-0.5.1.1 integer-gmp-1.0.1.0
+                      pretty-1.1.3.3 primitive-0.6.4.0 random-1.1
+                      template-haskell-2.12.0.0 tf-random-0.5 time-1.8.0.2
+                      transformers-0.5.2.0
+orphans: transformers-0.5.2.0:Control.Monad.Trans.Error
+         time-1.8.0.2:Data.Time.Format.Parse
+         time-1.8.0.2:Data.Time.LocalTime.Internal.ZonedTime
+         time-1.8.0.2:Data.Time.LocalTime.Internal.LocalTime
+         time-1.8.0.2:Data.Time.Calendar.Gregorian base-4.10.1.0:GHC.Float
+         base-4.10.1.0:GHC.Base
+family instance modules: base-4.10.1.0:Control.Applicative
+                         base-4.10.1.0:Data.Complex base-4.10.1.0:Data.Either
+                         base-4.10.1.0:Data.Functor.Compose base-4.10.1.0:Data.Functor.Const
+                         base-4.10.1.0:Data.Functor.Identity
+                         base-4.10.1.0:Data.Functor.Product base-4.10.1.0:Data.Functor.Sum
+                         base-4.10.1.0:Data.List.NonEmpty base-4.10.1.0:Data.Monoid
+                         base-4.10.1.0:Data.Semigroup base-4.10.1.0:Data.Type.Equality
+                         base-4.10.1.0:Data.Version base-4.10.1.0:Data.Void
+                         base-4.10.1.0:GHC.Exts base-4.10.1.0:GHC.Generics
+                         base-4.10.1.0:GHC.IO.Exception base-4.10.1.0:GHC.TypeLits
+                         base-4.10.1.0:GHC.TypeNats containers-0.5.10.2:Data.IntMap.Internal
+                         containers-0.5.10.2:Data.IntSet.Internal
+                         containers-0.5.10.2:Data.Map.Internal
+                         containers-0.5.10.2:Data.Sequence.Internal
+                         containers-0.5.10.2:Data.Set.Internal
+                         ghc-boot-th-8.2.2:GHC.ForeignSrcLang.Type
+                         ghc-boot-th-8.2.2:GHC.LanguageExtensions.Type
+                         pretty-1.1.3.3:Text.PrettyPrint.Annotated.HughesPJ
+                         pretty-1.1.3.3:Text.PrettyPrint.HughesPJ
+                         primitive-0.6.4.0:Control.Monad.Primitive
+                         primitive-0.6.4.0:Data.Primitive.ByteArray
+                         template-haskell-2.12.0.0:Language.Haskell.TH.Syntax
+import  -/  QuickCheck-2.10.1:Test.QuickCheck 0615fee573d7ebd8b2239421b64342c0
+import  -/  QuickCheck-2.10.1:Test.QuickCheck.Arbitrary ee5aa8cb64a46443c3d8cc9b8c81b466
+import  -/  base-4.10.1.0:Data.Semigroup 92914a5d9e5176805d2364209875f6ed
+import  -/  base-4.10.1.0:GHC.Base 782fd99b5e36f3698a26179a49afca64
+import  -/  base-4.10.1.0:GHC.Show 0a8ce2b5e533d1c2cfb7954e6736be45
+import  -/  base-4.10.1.0:Prelude 31945b7d0084063347fc52506d3a4020
+import  -/  ghc-prim-0.5.1.1:GHC.Classes 93e2660065dce9329577e83d76d8f0d4
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fArbitraryTrivial ::
+    Test.QuickCheck.Arbitrary.Arbitrary SemigroupExs.Trivial
+  DFunId
+  {- HasNoCafRefs, Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SemigroupExs.Trivial
+                  SemigroupExs.$fArbitraryTrivial1
+                    `cast`
+                  (Sym (Test.QuickCheck.Gen.N:Gen[0] <SemigroupExs.Trivial>_R))
+                  SemigroupExs.$fArbitraryTrivial_$cshrink -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fArbitraryTrivial1 ::
+    Test.QuickCheck.Random.QCGen
+    -> GHC.Types.Int -> SemigroupExs.Trivial
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,A><L,A>,
+     Unfolding: InlineRule (2, True, True)
+                (\ (ds :: Test.QuickCheck.Random.QCGen) (ds1 :: GHC.Types.Int) ->
+                 SemigroupExs.Trivial) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fArbitraryTrivial_$cshrink ::
+    SemigroupExs.Trivial -> [SemigroupExs.Trivial]
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,A>,
+     Unfolding: InlineRule (1, True, True)
+                (\ (ds :: SemigroupExs.Trivial) ->
+                 GHC.Types.[] @ SemigroupExs.Trivial) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fEqTrivial :: GHC.Classes.Eq SemigroupExs.Trivial
+  DFunId
+  {- HasNoCafRefs, Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SemigroupExs.Trivial
+                  SemigroupExs.$fEqTrivial_$c==
+                  SemigroupExs.$fEqTrivial_$c/= -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fEqTrivial_$c/= ::
+    SemigroupExs.Trivial -> SemigroupExs.Trivial -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*H><S,1*H>,
+     Unfolding: InlineRule (2, True, False)
+                (\ (a :: SemigroupExs.Trivial) (b :: SemigroupExs.Trivial) ->
+                 case a of wild { SemigroupExs.Trivial ->
+                 case b of wild1 { SemigroupExs.Trivial -> GHC.Types.False } }) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fEqTrivial_$c== ::
+    SemigroupExs.Trivial -> SemigroupExs.Trivial -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*H><S,1*H>,
+     Unfolding: InlineRule (2, True, False)
+                (\ (ds :: SemigroupExs.Trivial) (ds1 :: SemigroupExs.Trivial) ->
+                 case ds of wild { SemigroupExs.Trivial ->
+                 case ds1 of wild1 { SemigroupExs.Trivial -> GHC.Types.True } }) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fSemigroupTrivial :: Data.Semigroup.Semigroup SemigroupExs.Trivial
+  DFunId
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SemigroupExs.Trivial
+                  SemigroupExs.$fSemigroupTrivial_$c<>
+                  SemigroupExs.$fSemigroupTrivial_$csconcat
+                  SemigroupExs.$fSemigroupTrivial_$cstimes -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fSemigroupTrivial_$c<> ::
+    SemigroupExs.Trivial
+    -> SemigroupExs.Trivial -> SemigroupExs.Trivial
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,A><L,A>,
+     Unfolding: InlineRule (2, True, True)
+                (\ (ds :: SemigroupExs.Trivial) (ds1 :: SemigroupExs.Trivial) ->
+                 SemigroupExs.Trivial) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fSemigroupTrivial_$csconcat ::
+    Data.List.NonEmpty.NonEmpty SemigroupExs.Trivial
+    -> SemigroupExs.Trivial
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(LS),1*U(1*U(),1*U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (ds :: Data.List.NonEmpty.NonEmpty SemigroupExs.Trivial) ->
+                 case ds of wild { Data.List.NonEmpty.:| a1 as ->
+                 case as of wild1 { [] -> a1 : c cs -> SemigroupExs.Trivial } }) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fSemigroupTrivial_$cstimes ::
+    GHC.Real.Integral b =>
+    b -> SemigroupExs.Trivial -> SemigroupExs.Trivial
+  {- Arity: 3,
+     Strictness: <S(S(LS(S(C(C(S))L)LLC(C(S))LLLL)L)LLLLLLLL),U(U(U(A,A,A,A,A,A,C(U)),U(U(C(C1(U)),A),A,A,1*C1(C1(U)),A,A,A,A),A),1*U(A,C(U),A,A,A,A,A,A),C(C1(U)),C(C1(U)),A,A,A,A,A)><L,U><L,1*U()> -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fShowTrivial :: GHC.Show.Show SemigroupExs.Trivial
+  DFunId
+  {- Strictness: m, Inline: CONLIKE,
+     Unfolding: DFun:.
+                  @ SemigroupExs.Trivial
+                  SemigroupExs.$fShowTrivial_$cshowsPrec
+                  SemigroupExs.$fShowTrivial_$cshow
+                  SemigroupExs.$fShowTrivial_$cshowList -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fShowTrivial1 :: SemigroupExs.Trivial -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S,1*H><L,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ (ds :: SemigroupExs.Trivial) (eta :: GHC.Base.String) ->
+                 case ds of wild { SemigroupExs.Trivial ->
+                 GHC.Base.augment
+                   @ GHC.Types.Char
+                   (\ @ b
+                      (c :: GHC.Types.Char -> b -> b)[OneShot]
+                      (n :: b)[OneShot] ->
+                    GHC.Base.foldr
+                      @ GHC.Types.Char
+                      @ b
+                      c
+                      n
+                      SemigroupExs.$fShowTrivial2)
+                   eta }) -}
+bdd371cdb2881b6c3cd234a4c024671e
+  $fShowTrivial2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   SemigroupExs.$fShowTrivial3) -}
+218989f053a5a22c51610a5b52e07997
+  $fShowTrivial3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("Trivial"#) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fShowTrivial_$cshow :: SemigroupExs.Trivial -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*H>,
+     Unfolding: InlineRule (1, True, False)
+                (\ (x :: SemigroupExs.Trivial) ->
+                 case x of wild { SemigroupExs.Trivial ->
+                 SemigroupExs.$fShowTrivial2 }) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fShowTrivial_$cshowList ::
+    [SemigroupExs.Trivial] -> GHC.Show.ShowS
+  {- Arity: 2,
+     Unfolding: (GHC.Show.showList__
+                   @ SemigroupExs.Trivial
+                   SemigroupExs.$fShowTrivial1) -}
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  $fShowTrivial_$cshowsPrec ::
+    GHC.Types.Int -> SemigroupExs.Trivial -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,A><S,1*H><L,1*U>,
+     Unfolding: InlineRule (3, True, False)
+                (\ (ds :: GHC.Types.Int)
+                   (ds1 :: SemigroupExs.Trivial)
+                   (eta :: GHC.Base.String) ->
+                 case ds1 of wild { SemigroupExs.Trivial ->
+                 GHC.Base.augment
+                   @ GHC.Types.Char
+                   (\ @ b
+                      (c :: GHC.Types.Char -> b -> b)[OneShot]
+                      (n :: b)[OneShot] ->
+                    GHC.Base.foldr
+                      @ GHC.Types.Char
+                      @ b
+                      c
+                      n
+                      SemigroupExs.$fShowTrivial2)
+                   eta }) -}
+874c9cc09b489a9481a561873a5f2543
+  $tc'Trivial :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   3646411003812066291##
+                   18119070309225859191##
+                   SemigroupExs.$trModule
+                   SemigroupExs.$tc'Trivial2
+                   0#
+                   SemigroupExs.$tc'Trivial1) -}
+9536678fa95f92ac0156df2b211f58df
+  $tc'Trivial1 :: GHC.Types.KindRep
+  {- HasNoCafRefs, Strictness: m1, Inline: [~] -}
+cc93ba6c9d846ff20475aed7b3f0a2ee
+  $tc'Trivial2 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SemigroupExs.$tc'Trivial3) -}
+3c143e62854a197e3350a45473524249
+  $tc'Trivial3 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("'Trivial"#) -}
+0a64226df166f47f1485a19095b884d4
+  $tcTrivial :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   5240060411716444730##
+                   6392325689342246436##
+                   SemigroupExs.$trModule
+                   SemigroupExs.$tcTrivial1
+                   0#
+                   GHC.Types.krep$*) -}
+56eaf3f0bfb8c5eca7be9d31ace9fc98
+  $tcTrivial1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SemigroupExs.$fShowTrivial3) -}
+5e9e9c0e47c7bb4be881977deb227fc5
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module
+                   SemigroupExs.$trModule3
+                   SemigroupExs.$trModule1) -}
+9ce26efb38e042e3ada9a8d85b7557f8
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SemigroupExs.$trModule2) -}
+2c81e1c7cec79f5736ffc52fe2a2e60c
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("SemigroupExs"#) -}
+1e786db53bdd5669a92ddffbad539aa1
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS SemigroupExs.$trModule4) -}
+5c5dfcb9a92045affadb00eb81f7c56e
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs,
+     Unfolding: ("semigroupExs-0.1.0.0-HR4q0uIcquALSqjPWSqvlH"#) -}
+a76e9a9dfc47b94dbb8ec292cb6fe1b5
+  type TrivAssoc =
+    SemigroupExs.Trivial
+    -> SemigroupExs.Trivial -> SemigroupExs.Trivial -> GHC.Types.Bool
+7fbcab404f7258f5e9d65e9dc98a1f3c
+  data Trivial = Trivial
+0a92823dd0d7e5b02ceb78b88ddc3e8c
+  semigroupAssoc ::
+    (GHC.Classes.Eq m, Data.Semigroup.Semigroup m) =>
+    m -> m -> m -> GHC.Types.Bool
+  {- Arity: 5, HasNoCafRefs,
+     Strictness: <S(C(C(S))L),1*U(1*C1(C1(U)),A)><L,U(C(C1(U)),A,A)><L,U><L,U><L,U>,
+     Unfolding: (\ @ m
+                   ($dEq :: GHC.Classes.Eq m)
+                   ($dSemigroup :: Data.Semigroup.Semigroup m)
+                   (a :: m)
+                   (b :: m)
+                   (c :: m) ->
+                 GHC.Classes.==
+                   @ m
+                   $dEq
+                   (Data.Semigroup.<>
+                      @ m
+                      $dSemigroup
+                      a
+                      (Data.Semigroup.<> @ m $dSemigroup b c))
+                   (Data.Semigroup.<>
+                      @ m
+                      $dSemigroup
+                      (Data.Semigroup.<> @ m $dSemigroup a b)
+                      c)) -}
+instance [safe] Test.QuickCheck.Arbitrary.Arbitrary [SemigroupExs.Trivial]
+  = SemigroupExs.$fArbitraryTrivial
+instance [safe] GHC.Classes.Eq [SemigroupExs.Trivial]
+  = SemigroupExs.$fEqTrivial
+instance [safe] Data.Semigroup.Semigroup [SemigroupExs.Trivial]
+  = SemigroupExs.$fSemigroupTrivial
+instance [safe] GHC.Show.Show [SemigroupExs.Trivial]
+  = SemigroupExs.$fShowTrivial
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+
