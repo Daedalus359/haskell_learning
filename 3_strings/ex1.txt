@@ -1,0 +1,19 @@
+a - correct
+
+b - incorrect
+	[1,2,3] ++ [4,5,6]
+
+c - correct
+
+d - incorrect
+	"hello" ++ " world"
+
+e - incorrect
+	"Hello" !! 4
+
+f - correct
+
+g - incorrect
+	take 4 "lovely"
+
+h - correct
