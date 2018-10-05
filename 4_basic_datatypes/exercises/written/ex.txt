@@ -1,0 +1,9 @@
+1. length :: Foldable t => t a -> Int
+
+2.
+	a - 5
+	b - 3
+	c - 2
+	d - 5
+
+3. 
