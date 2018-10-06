@@ -6,4 +6,23 @@
 	c - 2
 	d - 5
 
-3. 
+3. 6 / length [1, 2, 3] does not work because length [1, 2, 3] has type Int. Int does not belong to the Fractional typeclass, which (/) requires.
+
+4. div 6 $ length [1,2,3]
+
+5. Bool, True
+
+6. Bool, False
+
+7.
+	length allAwesome == 2 works, returns True
+	length [1, 'a', 3, 'b'] does not work, because the list contains different data types
+	length allAwesome + length awesome works, returns 5
+	(8 == 8) && ('b' < 'a') works, returns False
+	(8 == 8) && 9 does not work, 9 is not boolean
+
+8. isPalindrome a = a == reverse a
+
+9. myAbs x = if (x < 0) then (-1 * x) else x
+
+10. f ab cd = ((snd ab, snd cd), (fst ab, fst cd))
