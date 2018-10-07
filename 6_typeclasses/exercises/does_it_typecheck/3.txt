@@ -1,0 +1,3 @@
+a - Mood values
+b - it won't work, as 9 is not a Mood value
+c - it won't work because there is no instance of Ord
