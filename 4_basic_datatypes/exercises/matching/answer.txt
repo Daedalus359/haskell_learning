@@ -1,0 +1,4 @@
+1 - Show a => a -> String
+2 - Eq a => a -> a -> Bool
+3 - (a, b) -> a
+4 - (a, b) -> acd m
