@@ -1,0 +1,19 @@
+1
+	a - Constrained (Num)
+	b - fully polymorphic
+	Int - concrete
+
+2
+	zed - fully Polymorphic
+	Zed - concrete
+	Blah - concrete
+
+3
+	a - fully polymorphic
+	b - Constrained (Enum)
+	C - concrete
+
+4
+	f - fully polymorphic
+	g - fully polymorphic
+	C - concrete
