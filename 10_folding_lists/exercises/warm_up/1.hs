@@ -2,15 +2,15 @@ combos :: [a] -> [a] -> [(a,a,a)]
 combos fl sl = [(c1, v, c2) | c1 <- fl, v <- sl, c2 <- fl]
 
 --a
-stops = "pbkg"
-vowels = "aeu"
+stops = "pbg"
+vowels = "ae"
 partA = combos stops vowels
 
 --b
 partB = [(c1, a, c2) | (c1, a, c2) <- (combos stops vowels), (c1 == 'p')]
 
 --c
-nouns = ["Kevin", "Linus", "table", "rock"]
+nouns = ["Kevin", "Linus", "rock"]
 verbs = ["eat", "build"]
 
 partC = combos nouns verbs
