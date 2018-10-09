@@ -1,10 +1,9 @@
 combos :: [a] -> [a] -> [(a,a,a)]
 combos fl sl = [(c1, v, c2) | c1 <- fl, v <- sl, c2 <- fl]
 
-
 --a
-stops = "pbtdkg"
-vowels = "aeiou"
+stops = "pbkg"
+vowels = "aeu"
 partA = combos stops vowels
 
 --b
