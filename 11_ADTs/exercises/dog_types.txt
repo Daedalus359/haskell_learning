@@ -1,0 +1,9 @@
+1 - type constructor
+2 - * -> *
+3 - *
+4 - Husky 10 :: Num a => Doggies a
+5 - Husky (10 :: Integer) :: Doggies Integer
+6 - Mastiff "Scooby Doo" :: Doggies [Char]
+7 - both / it is unclear without context
+8 - a -> DogueDeBordeaux a
+9 - DogueDeBordeaux [Char]

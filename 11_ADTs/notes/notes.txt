@@ -1,0 +1,36 @@
+ex 1:
+	data Bool = False | True
+
+	'data' keyword used for decalaration of a datatype
+	Bool is a 'type constant', a special case of a type constructor that takes no arguments
+	there are two 'data constructors' for Bool: {True, False}
+	True and False are each constants, as they take no arguments
+
+ex 2:
+	data [] a = [] | a : [a]
+
+	'[] a' is a type constructor that takes one argument
+	[] is the data constructor for an empty list
+	(:) is the data constructor that forms a list from an element and another list
+
+ex 3:
+	[] :: * -> *
+
+	this is the 'kind signature' for [], which is a type constructor that is not yet applied
+	once applied (e.g. [Int]), the kind is just *, meaning it is fully applied and corresponds to a type
+	kind signatures for type constructor can be queried in ghci using :k <type constructor>
+
+ex 4:
+    data HuskyType a = HuskyData
+
+    the type constructor (HuskyType) takes one argument
+    the data constructor (HuskyData) takes no arguments
+    the type argument (a) is said to 'have no witness'
+
+ex 5:
+    data MyType kool = MyType kool
+
+    note that type and data constructors are allowed to have the same name
+    'kool' is just another type variable. the name is arbitrary like 'a'
+
+ex 6:
