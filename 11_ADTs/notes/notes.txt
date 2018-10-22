@@ -34,3 +34,54 @@ ex 5:
     'kool' is just another type variable. the name is arbitrary like 'a'
 
 ex 6:
+    newtype Goats =
+        Goats Int deriving (Eq, Show)
+
+    newtype is useful for when we want a type whose values are expressable in an existing type
+    Goats lets us make sure that we don't pass arbitrary integers to a function that is meant to deal with goats specifically
+        (by letting us specify Goats in the type signature of such a function)
+
+ex 6:
+    class TooMany a where:
+        tooMany :: a -> Bool
+
+    newtype Goats = Goats Int Deriving Show
+
+    instance TooMany Goats where:
+        tooMany (Goats n) = n > 43
+
+    newtype also lets us define new typeclass instaces not owned by the type t corresponds to
+
+ex 7:
+    {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
+    this pragma allows us to derive any custom typeclass instances we define on Int when we define Goat
+
+ex 8:
+    data Bool = False | True
+
+    a sum type
+
+ex 9:
+    data Person =
+        MkPerson String Int
+
+    a product type
+
+ex 10:
+    data Person =
+        Person { name :: String
+        , age :: Int}
+        deriving(Eq, Show)
+
+    a product type defined with 'named record field accessors' (name, age)
+    name and age are each functions that go from Person to their corresponding element
+        ex:
+            >let papu = Person "Papu" 5
+            >age Papu
+            5
+
+ex 11:
+    type Awesome = Bool
+
+    a type synonym. This lets us use Awesome wherever we could use Bool (in type signatures, etc.)
