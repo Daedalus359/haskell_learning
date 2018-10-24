@@ -1,0 +1,19 @@
+ex 1:
+	data Maybe a = Nothing | Just a
+
+	the maybe datatype
+
+ex 2:
+	ifEvenAdd2 :: integer -> Maybe Integer
+	ifEvenAdd2 n = if even n then Just (n + 2) else Nothing
+
+ex 3:
+	data Either a b = Left a | Right b
+
+	the either datatype
+
+ex 4:
+	$ fmap Just [1, 2, 3]
+	[Just 1,Just 2,Just 3]
+
+	"The significance and utility of this may not be immediately obvious but will be more clear in later chapters."
