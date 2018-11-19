@@ -1,0 +1,1 @@
+'Gen a' gives us a newtype way to define a function that returns a radom value of the type we want
