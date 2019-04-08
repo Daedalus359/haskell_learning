@@ -1,0 +1,65 @@
+Functors:
+
+class Functor f where
+ fmap :: (a -> b) -> f a -> f b
+
+In order for (f a) to be a fully applied type, f must have kind (* -> *)
+  (f a) needs to be a fully applied type because it appears in the type signature for fmap
+
+examples:
+
+Prelude> fmap (\x -> x > 3) [1..6] 
+[False,False,False,True,True,True]
+	note that Strings are also functors, as they are lists
+
+fmap (+1) (Just 1) = Just 2
+
+fmap (+3) $ ((,) 1) 2 = (1, 5)
+	note ((,) 1) 2 = (1, 2). It's written this way to emphasize that ((,) 1) is a functor
+
+the mathematical 'functor' must obey some laws:
+  fmap id = id
+    mapping the identity function over a functor should do nothing, i.e:
+      for all a, functor f: fmapd id (f a) = f a
+
+  fmap (f . g) == fmap f . fmap g
+
+the following is an UNLAWFUL but "valid according to GHC" instance of functor for list:
+  instance Functor [] where
+    fmap :: (a -> b) -> [a] -> [b]
+    fmap _ [] = []
+    fmap g (x:xs) = g x : g x : fmap g xs --BAD CODE!
+      --fmap id [1, 2] = [1, 1, 2, 2] demonstrates violation of the id law
+      --fmap id . fmap id $ [1, 2] = [1, 1, 1, 1, 2, 2, 2, 2]
+        --compare to previous example to see violation of composition law
+
+fmap can be thought of as digging to various hierarchical levels inside of nested structure.
+Consider the function replaceWithP = const 'p', which turns a value of any type into the character 'p'. We can use this function to see how fmap can be used a varying number of times to change where the 'p's show up.
+
+Let's create some data which contains nested functors:
+let lms :: ([] (Maybe ([] Char))) ; lms = [Nothing, Just "Kevin", Just "Hello!"]
+
+if we don't use fmap, replaceWithP takes in all of lms as  input:
+replaceWithP lms = 'p'
+
+using fmap once, we get this:
+fmap replaceWithP lms = ['p', 'p', 'p']
+Look at the type signature of fmap replaceWithP:
+  fmap (const 'p') :: Functor f => f b -> f Char
+Making these parameters concrete with fmap (const 'p') lms, we see that 'f' corresponds to '[]', and b corresponds to 'Maybe ([] (Char))'.
+
+using fmap twice, we get:
+Prompt> (fmap . fmap) (const 'p') lst
+[Nothing,Just 'p',Just 'p']
+(fmap . fmap) (const 'p') :: (Functor f1, Functor f2) => f1 (f2 a) -> f1 (f2 Char)
+now, we see that the inner fmap gets us running functions inside of []. The function we run inside of there is in turn fmap, which gets us one level deeper, inside of the 'Maybe'. Then, we actually apply (const 'p').
+
+we can do this as may times as we have layers of functor:
+(fmap . fmap . fmap) (const 'p') lms = [Nothing,Just "ppppp",Just "ppp"]
+
+
+
+
+misc facts:
+  (<$>) is infix fmap
+
