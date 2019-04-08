@@ -59,7 +59,6 @@ we can do this as may times as we have layers of functor:
 
 
 
-
 misc facts:
   (<$>) is infix fmap
 
