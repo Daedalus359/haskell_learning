@@ -1,1 +1,0 @@
--- problems 3 and 4 are repetitive and similar to problem 5, refer to 5.hs
