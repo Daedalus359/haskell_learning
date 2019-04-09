@@ -1,0 +1,23 @@
+the definition of applicative:
+class Functor f => Applicative f where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+
+(<*>) is known as 'apply', and it looks like it takes any values of a in its second argument to apply to inputs of the first argument. Trying a couple of examples with list:
+
+Prelude> [(\x -> x + 1)] <*> [1, 2]
+[2,3]
+
+Prelude> [(\x -> x + 1), (\x -> x * 5)] <*> [1, 2]
+[2,3,5,10]
+
+Control.Applicative also lets us use the following functions with applicative
+
+liftA :: Applicative f => (a -> b) -> f a -> f b
+--note that this has the type signature of fmap and apparently does the same thing
+
+liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
+liftA3 :: Applicative f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
+--details to come
+
+
