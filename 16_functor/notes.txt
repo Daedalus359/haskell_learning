@@ -57,7 +57,13 @@ now, we see that the inner fmap gets us running functions inside of []. The func
 we can do this as may times as we have layers of functor:
 (fmap . fmap . fmap) (const 'p') lms = [Nothing,Just "ppppp",Just "ppp"]
 
+Some datatypes can't have funtor instances until one of their parameters gets a functor instance.For example:
 
+data Wrap f a =
+  Wrap (f a)
+  deriving (Eq, Show)
+
+see 16.12 for the Functor instance
 
 misc facts:
   (<$>) is infix fmap
