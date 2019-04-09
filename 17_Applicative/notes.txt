@@ -82,4 +82,17 @@ instance Applicative Maybe where
 
 --Nothing was an identity inside of Monoid, but dominates when used with <*>
 
+The List Applicative maps each of the elements in a list of functions over a list of values and concatenates the results:
+
+Prelude> [(+1), (*2)] <*> [2, 4]
+[3,5,4,8]
+
+We can make zip with Apply:
+Prelude Data.Monoid> fmap (,) [1, 2] <*> [3,4]
+[(1,3),(1,4),(2,3),(2,4)]
+
+recall that liftA2 does this kind of thing as well
+> liftA2 (,) [1, 2] [3, 4]
+[(1,3),(1,4),(2,3),(2,4)]
+
 
