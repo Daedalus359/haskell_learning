@@ -1,0 +1,98 @@
+the definition of applicative:
+class Functor f => Applicative f where
+  pure :: a -> f a
+  (<*>) :: f (a -> b) -> f a -> f b
+
+(<*>) is known as 'apply', and it looks like it takes any values of a in its second argument to apply to inputs of the first argument. Trying a couple of examples with list:
+
+Prelude> [(\x -> x + 1)] <*> [1, 2]
+[2,3]
+
+Prelude> [(\x -> x + 1), (\x -> x * 5)] <*> [1, 2]
+[2,3,5,10]
+
+Control.Applicative also lets us use the following functions with applicative
+
+liftA :: Applicative f => (a -> b) -> f a -> f b
+--note that this has the type signature of fmap and apparently does the same thing
+
+liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c
+liftA3 :: Applicative f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
+--details to come
+
+given an applicative instance, we can define fmap as:
+fmap f x = pure f <*> x
+
+>:t (pure (+1))
+(pure (+1)) :: (Applicative f, Num a) => f (a -> a)
+
+pure (+1) <*> [1,2,3] = [2,3,4]
+
+((->) a) has an instance of applicative, and its pure generates constant functions:
+Prelude> let oddFunc = pure 1 :: (->) a Int
+Prelude> oddFunc 5
+1
+Prelude> oddFunc "hello"
+1
+
+Here is one example:
+Prelude> [(*2)] <*> []
+[]
+
+Consider the behavior of Either, where any Left value is an identity for apply:
+Prelude> Left (2) <*> (Right (*2))
+Left 2
+
+Prelude> Right (*2) <*> (Left ("a"))
+Left "a"
+
+Consider the behavior of ((,) a), which is Applicative when a is a Monoid:
+---
+Prelude> (1 :: Integer, not) <*> (1 :: Integer, False)
+
+<interactive>:29:1: error:
+    * No instance for (Monoid Integer) arising from a use of `<*>'
+---
+Prelude> import Data.Monoid 
+Prelude Data.Monoid> (Sum 1, not) <*> (Sum 2, False)
+(Sum {getSum = 3},True)
+---
+
+Since a in ((,) a) is part of the structure that Applicative must preserve, you need sensible ways to combine these values. The Applicative instance Monoid a => Applicative ((,) a) accomplishes this with the monoid requirement
+
+The full instance:
+instance Monoid a => Applicative ((,) a) where
+  pure x = (mempty, x)
+  (u, f) <*> (v, x) = (u `mappend` v, f x)
+
+
+Note that Applicatives which are Monoids may have their mempty values behave unlike an identity inside of Applicative
+
+instance Monoid a => Monoid (Maybe a) where
+  mempty = Nothing
+  mappend m Nothing = m
+  mappend Nothing m = m
+  ....
+
+instance Applicative Maybe where
+  pure = Just
+
+  Nothing <*> _ = Nothing
+  _ <*> Nothing = Nothing
+
+--Nothing was an identity inside of Monoid, but dominates when used with <*>
+
+The List Applicative maps each of the elements in a list of functions over a list of values and concatenates the results:
+
+Prelude> [(+1), (*2)] <*> [2, 4]
+[3,5,4,8]
+
+We can make zip with Apply:
+Prelude Data.Monoid> fmap (,) [1, 2] <*> [3,4]
+[(1,3),(1,4),(2,3),(2,4)]
+
+recall that liftA2 does this kind of thing as well
+> liftA2 (,) [1, 2] [3, 4]
+[(1,3),(1,4),(2,3),(2,4)]
+
+
