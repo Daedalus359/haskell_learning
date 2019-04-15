@@ -46,6 +46,11 @@ executable diagram-test-exe
   build-depends:
       base >=4.7 && <5
     , diagram-test
+    , diagrams
+    , diagrams-lib
+    , diagrams-core
+    , diagrams-contrib
+    , diagrams-svg
   default-language: Haskell2010
 
 test-suite diagram-test-test
