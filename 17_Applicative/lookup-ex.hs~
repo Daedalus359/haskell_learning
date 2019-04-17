@@ -42,4 +42,4 @@ y'' = lookup 2 $ zip xs ys
 
 --it typechecks, but the behavior of sum on (#, #) is not what I expected
 summed :: Maybe Integer
-summed = fmap sum $ liftA2 (,) x' y''
+summed = fmap sum $ liftA2 (,) x' y''i

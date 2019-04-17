@@ -1,0 +1,67 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 7d678b3cf67aa6b693644887f320463bed6684a49a372e8d680e3184954823cb
+
+name:           diagram-test
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/diagram-test#readme>
+homepage:       https://github.com/githubuser/diagram-test#readme
+bug-reports:    https://github.com/githubuser/diagram-test/issues
+author:         Kevin Bradner
+maintainer:     kmb172@case.edu
+copyright:      2019 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/diagram-test
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_diagram_test
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable diagram-test-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_diagram_test
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , diagram-test
+    , diagrams
+    , diagrams-lib
+    , diagrams-core
+    , diagrams-contrib
+    , diagrams-svg
+  default-language: Haskell2010
+
+test-suite diagram-test-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_diagram_test
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , diagram-test
+  default-language: Haskell2010
