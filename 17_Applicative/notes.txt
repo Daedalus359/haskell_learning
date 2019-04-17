@@ -95,4 +95,9 @@ recall that liftA2 does this kind of thing as well
 > liftA2 (,) [1, 2] [3, 4]
 [(1,3),(1,4),(2,3),(2,4)]
 
-
+Applicative Laws:
+pure id <*> v = v
+pure (.) <*> u <*> v <*> w = u <*> (v <*> w)
+pure f <*> pure x = pure (f x)
+u <*> pure y = pure ($ y) <*> u
+  --($ y) is sectioning the dollar sign operator and applying the second argument
