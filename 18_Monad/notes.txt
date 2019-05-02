@@ -1,0 +1,12 @@
+Monad Typeclass Definition:
+
+class Applicative m => Monad m where
+  (>>=) :: m a -> (a -> m b) -> m b
+  (>>) :: m a -> m b -> m b
+  return :: a -> m a
+
+initial impressions:
+  1. return looks like 'pure' from Applicative. I assume it is the same
+  2. (>>) seems like it could just discard its first argument. I don't see the point
+  3. I'm assuming, as with Applicative, that the two monad structures in the arguments of (>>=) are combined monoidally
+
