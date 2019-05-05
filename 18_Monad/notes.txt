@@ -24,4 +24,74 @@ putStrLn <$> getLine
 join $ putStrLn $ getLine
   --join turns IO (IO ()) into just IO (), and it also does what we probably wanted
 
- 
+do syntax:
+
+sequncing is defined in terms of do syntax. sequencing' is the same without do
+
+seqencing :: IO ()
+sequencing = do
+  putStrLn "blah"
+  putStrLn "another thing"
+
+sequencing' :: IO ()
+sequencing' =
+  putStrLn "blah"
+  putStrLn "another thing"
+
+similarly with binding:
+
+binding :: IO ()
+binding = do
+  name <- getLine
+  putStrLn name
+
+binding' :: IO ()
+binding' =
+  getLine >>= putStrLn
+
+bindingAndSequencing :: IO ()
+bindingAndSequencing = do
+  putStrLn "name pls"
+  name <- getLine
+  putStrLn ("y hello thar: " ++ name)
+
+bindingAndSequencing' :: IO ()
+bindingAndSequencing' =
+  putStrLn "name pls: " >>
+  getLine >>= (\name -> putStrLn ("y hello thar: " ++ name))
+
+!!!
+It seems, after a great deal of confusion, that value named by (<-) in an expression of the form:
+  name <- (m a)
+  is of type a, and not of type m a.
+Exactly how this operator behaves for general monads (see list) is unclear to me
+
+List Monad
+specializing the type of (>>=) for list gives
+
+(>>=) :: [a] -> (a -> [b]) -> [b]
+return :: a -> [a]
+
+twiceWhenEven :: [Integer] -> [Integer]
+twiceWhenEven xs = do
+  x <- xs
+  if even x
+    then [x*x, x*x]
+    else [x*x]
+
+tWENoDo :: [Integer] -> [Integer]
+tEWNoDo xs =
+  xs >>= (if even x then [x*x, x*x] else [x*x])
+
+withJoin :: [Integer] -> [Integer]
+withJoin xs =
+  join [(\x -> if even x then [x*x, x*x] else [x*x]) i | i <- xs]
+
+the behavior of this depends on the implementation of []'s Monad instance:
+xs >> ys = [y | _ <- xs, y <- ys]
+xs >>= f = [y | x <- xs, y <- f x]
+
+Maybe Monad
+specialize the monad function types for Maybe:
+(>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
+return :: a -> Maybe a
