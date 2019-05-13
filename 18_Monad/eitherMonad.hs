@@ -1,4 +1,4 @@
-module EitherMonad where
+nmodule EitherMonad where
 
 type Founded = Int
 
@@ -22,7 +22,7 @@ validateFounded :: Int -> Either ShopError Founded
 validateFounded n
   | n < 0 = Left $ NegativeYears n
   | n > 500 = Left $ TooManyYears n
-  | otherwise = Right n
+  | otherwise = Right
 
 validateCoders :: Int -> Either ShopError Coders
 validateCoders coders
