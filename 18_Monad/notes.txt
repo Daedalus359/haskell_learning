@@ -95,3 +95,8 @@ Maybe Monad
 specialize the monad function types for Maybe:
 (>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
 return :: a -> Maybe a
+
+From Control.Monad:
+(>=>) :: Monad m => (a -> m b) -> (b -> m c) -> a -> m c
+this is composition for functions that evalaute to a type inside monadic structure
+
