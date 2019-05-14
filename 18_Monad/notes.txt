@@ -26,17 +26,17 @@ join $ putStrLn $ getLine
 
 do syntax:
 
-sequncing is defined in terms of do syntax. sequencing' is the same without do
+sequencing1 is defined in terms of do syntax. sequencing' is the same without do
 
-seqencing :: IO ()
-sequencing = do
+sequencing1 :: IO ()
+sequencing1 = do
   putStrLn "blah"
   putStrLn "another thing"
 
 sequencing' :: IO ()
 sequencing' =
-  putStrLn "blah"
-  putStrLn "another thing"
+  putStrLn "blah" >> 
+  putStrLn "another thing" >>
 
 similarly with binding:
 
