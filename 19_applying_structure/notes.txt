@@ -29,3 +29,4 @@ appling liftA2 to (||) lets us drop the first input from the resulting type. The
 (<||>) :: (a -> Bool) -> (a -> Bool) -> a -> Bool
 (<||>) = liftA2 (||)
 
+### Monad
