@@ -1,0 +1,10 @@
+### Monoids
+
+See scotty.hs for code that generates a webpage which involves the use of monoids. The resulting page can be viewed at 127.0.0.1:3000/werd (etc.)
+
+xmonad.hs relies on the following: instance Monoid b => Monoid (a -> b)
+
+what this means: (f <> g) x = (f x) <> (g x)
+
+### Functors
+
