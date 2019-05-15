@@ -15,3 +15,17 @@ uuid.hs demonstrates fmap getting inside of IO that resulted from RNG
 datatypes to describe web applications are (apparently) often Monads. This Monad often contains information associated with its type parameter, representing a result computed in the context of your web app. The included example apparently uses snap
 
 ### Applicative
+
+(<*) :: Applicative f => fa -> f b -> f b
+(*>) also exists
+these functions are good for sequencing actions where you discard the result of one action. Often useful if you just want a computational effect but don't need a result.
+
+applUtil.hs demonstrates the function Applicative (instance Applicative ((->) a))
+specializing the types of liftA2 for this case gives
+general:  liftA2 :: Applicative f => (a -> b -> c)       -> f        a    -> f        b ->    f             c
+specific: liftA2 ::                  (Bool -> Bool -> c) -> ((->) a) Bool -> ((->) a) Bool -> ((->) (a)) -> Bool
+
+appling liftA2 to (||) lets us drop the first input from the resulting type. The type signature above is a desugared version of what is in the source file:
+(<||>) :: (a -> Bool) -> (a -> Bool) -> a -> Bool
+(<||>) = liftA2 (||)
+
