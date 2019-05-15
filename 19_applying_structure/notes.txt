@@ -9,3 +9,6 @@ what this means: (f <> g) x = (f x) <> (g x)
 ### Functors
 
 the offsetTime example fmaps a function of type UTCTime -> UTCTime (addUTCTime (offset * 24 * 3600)) over a type IO UTCTime
+
+uuid.hs demonstrates fmap getting inside of IO that resulted from RNG
+
