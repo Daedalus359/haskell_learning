@@ -12,3 +12,6 @@ the offsetTime example fmaps a function of type UTCTime -> UTCTime (addUTCTime (
 
 uuid.hs demonstrates fmap getting inside of IO that resulted from RNG
 
+datatypes to describe web applications are (apparently) often Monads. This Monad often contains information associated with its type parameter, representing a result computed in the context of your web app. The included example apparently uses snap
+
+### Applicative
