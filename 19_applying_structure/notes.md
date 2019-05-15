@@ -1,4 +1,8 @@
-### Monoids
+# Applying Structure
+
+Notes on various common uses for the typeclasses studied in the past few chapters.
+
+## Monoids
 
 See scotty.hs for code that generates a webpage which involves the use of monoids. The resulting page can be viewed at 127.0.0.1:3000/werd (etc.)
 
@@ -6,7 +10,7 @@ xmonad.hs relies on the following: instance Monoid b => Monoid (a -> b)
 
 what this means: (f <> g) x = (f x) <> (g x)
 
-### Functors
+## Functors
 
 the offsetTime example fmaps a function of type UTCTime -> UTCTime (addUTCTime (offset * 24 * 3600)) over a type IO UTCTime
 
@@ -14,7 +18,7 @@ uuid.hs demonstrates fmap getting inside of IO that resulted from RNG
 
 datatypes to describe web applications are (apparently) often Monads. This Monad often contains information associated with its type parameter, representing a result computed in the context of your web app. The included example apparently uses snap
 
-### Applicative
+## Applicative
 
 (<*) :: Applicative f => fa -> f b -> f b
 (*>) also exists
@@ -29,4 +33,9 @@ appling liftA2 to (||) lets us drop the first input from the resulting type. The
 (<||>) :: (a -> Bool) -> (a -> Bool) -> a -> Bool
 (<||>) = liftA2 (||)
 
-### Monad
+## Monad
+
+Monad functions tend to appear in any code the uses IO
+
+network.hs demonstrates do notation, but is missing a dependency I can't sort out
+
