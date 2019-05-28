@@ -18,4 +18,15 @@ foldMap Sum [1..5] = Sum {getSum = 15}
 Here, Sum (from Data.Monoid) is an unapplied data constructor for the Sum type that specifies
 a monoid for numbers (addition)
 
+running fold on an empty data structure returns mempty:
+Prelude Data.Monoid Data.Foldable> fold [] :: String
+""
+
 ### Demonstrating Foldable Instances
+
+data Identity a = Identity a
+
+instance Foldable Identity where
+  foldr f z (Identity x) = f x z
+  foldl f z (Identity x) = f z x
+  foldMap f (Identity x) = f x
