@@ -30,3 +30,23 @@ instance Foldable Identity where
   foldr f z (Identity x) = f x z
   foldl f z (Identity x) = f z x
   foldMap f (Identity x) = f x
+
+A catamorphism for this kind of data structure doesn't really reduce the values inside, since there is only one in the first place
+
+instance Foldable Optional where -- Optional is a Maybe-ish type
+  foldr f z (Yep x) = f x z
+  foldr _ z (Nada) = z
+  --foldl is nothing new
+  foldMap _ Nada = mempty--uses mempty from the monoid specified in the type of f, even though the value of f is discarded
+  foldMap f (Yep x) = f x
+
+Note that foldMap requires an explicit monoid to be specified:
+
+Prelude Data.Monoid> foldMap (+1) (Just 5)
+	**screaming**
+Prelude Data.Monoid> foldMap (+1) (Just 5) :: Sum Int
+	Sum {getSum = 6}
+Prelude Data.Monoid> let f = (\x -> Sum x + 1)
+Prelude Data.Monoid> foldMap (+1) (Just 5) :: Sum Int
+	Sum {getSum = 6}
+
