@@ -50,3 +50,7 @@ Prelude Data.Monoid> let f = (\x -> Sum x + 1)
 Prelude Data.Monoid> foldMap (+1) (Just 5) :: Sum Int
 	Sum {getSum = 6}
 
+### Some basic derived operations
+toList :: Foldable t => t a -> [a]
+sum :: (Foldable t, Num a) => t a -> a
+product :: (Foldable t, Num a) => t a -> a
