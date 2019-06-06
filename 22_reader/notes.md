@@ -32,3 +32,4 @@ specialize the type of (<*>) for ((->) r)
 --my GUESS
 instance Monad ((->) a) where
   (>>=) faz fzfab = (\a -> fzfab $ faz a)
+
