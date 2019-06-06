@@ -33,3 +33,6 @@ specialize the type of (<*>) for ((->) r)
 instance Monad ((->) a) where
   (>>=) faz fzfab = (\a -> fzfab $ faz a)
 
+### Thughts
+
+The purpose of Reader seems unclear to me at this point. It doesn't seem to let you do anything that can't already be done on a function directly.
