@@ -1,6 +1,7 @@
 module LearnParsers where
 
 import Text.Trifecta
+import Control.Applicative
 
 stop :: Parser a
 stop = unexpected "stop"
@@ -28,10 +29,10 @@ testParse :: Parser Char -> IO ()
 
 testParse p = print $ parseString p mempty "123"
 
---3
+--3: proud of this one
 stringFromChar :: (Monad m, CharParsing m) => String -> m String
 stringFromChar "" = return ""
---stringFromChar (c : "") = char c >>= 
+stringFromChar (c : cs) = liftA2 (:) (return c) $ stringFromChar cs
 
 pNL s = putStrLn ('\n' : s)
 
@@ -48,4 +49,8 @@ main = do
   testParse oneTwo'
   pNL "oneTwoEof:"
   testParse oneTwoEof
+  pNL "testParseStr with real string"
+  testParseStr $ string "123"
+  pNL "testParseStr with custom string:"
+  testParseStr $ stringFromChar "123"
 
