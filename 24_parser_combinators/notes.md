@@ -40,3 +40,11 @@ Prelude> parseString (string "abc") mempty "abcdef"
 success "abc"
 
 ### Parsing Fractions
+
+fail is currently part of Monad. The authors expect to to eventally be moved to MonadFail.
+
+fail :: Monad m -> String -> m a
+
+fail is how you can indicate a failed parse.
+
+
