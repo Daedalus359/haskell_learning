@@ -13,3 +13,23 @@ Often when we are parsing things, the structured datatype that results will look
 A parser is a functiont hat takes some textual input (e.g. String, ByteString, Text) and returns some structure as output. Parsers analyze structure in conformance with the rules specified in a grammar, whether it's a grammar of human language, a programming language, or a format such as JSON.
 
 A parser combinator is a higher order function that takes parsers as input and returns a new parser as output.
+
+### The Parser Type
+
+type Parser a = String -> Maybe (a, String)
+
+A parser takes in a string, and either fails (Nothing) or returns a tuple with the value you wanted (a) and whatever's left of the string that you didn't consume (String).
+
+Compare this to State:
+
+newtype State s a = State {runState :: s -> (a,s)}
+
+Parser is very much like state, except that is specifically works on Strings and the function it runs may fail.
+
+### Hutton Meijer Parser Type
+
+type Parser' a = Strin -> [(a, String)]
+
+In this case the list contains any number of possibly valid parses starting from the input provided.
+
+
