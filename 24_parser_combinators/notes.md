@@ -32,4 +32,11 @@ type Parser' a = Strin -> [(a, String)]
 
 In this case the list contains any number of possibly valid parses starting from the input provided.
 
+### Parsing Free Jazz
 
+A single parser does not necessarily exhaust all of its input. It consumes as much text as needed to produce the value requested. Example:
+
+Prelude> parseString (string "abc") mempty "abcdef"
+success "abc"
+
+### Parsing Fractions
