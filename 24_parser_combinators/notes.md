@@ -54,4 +54,43 @@ Success ()
 
 The parser worked properly - it found an integer followed by the end of the file. The type of eof is Parsing m => m (), so the type of (integer >> eof) is Parsing m => m (), and since the type of parseString is Parser a -> Text.Trifecta.Delta.Delta -> String -> Result a, a is bound to (), and our output type is thus Result ().
 
+### Type Classes of Parsers
+
+The trifecta library relies on the parsers library, which defines a variety of parser related type classes. Here is some relevant info:
+
+The type class Parsing has Alternative as a superclass.
+A minimal instance of Parsing includes try, notFollowedBy, and (<?>)
+
+class Alternative m => Parsing m where
+  try :: m a -> m a
+  notFollowedBy :: Show a => m a -> m ()
+  (<?>) :: Parsing m => m a -> String -> m a
+  eof :: m ()
+
+try takes a parser that may consume input and, on failure, goes back to where it started and fails.
+
+notFollowedBy lets us specify a type to not match on. This can be helpful for creating a parser that matches on some pattern but only when that pattern is not followed by another type of pattern.
+
+(<?>) takes a Parser and a String, and creates a parser which will use that String as an error message whenever the Parser did not consume input.
+
+eof parses the end of input.
+
+The CharParsing type class is for parsing individual characters.
+
+class Parsing m => CharParsing m where
+  notChar :: Char -> m Char
+  anyChar :: m Char
+  string :: String -> m String
+  text :: Text -> m Text
+
+notChar parses any single character other than the one provided, and returns whatever character it parsed.
+
+anyChar succeeds for any character and returns the charater parsed.
+
+string parses a sequence of characters, and returns the string parsed
+
+text does the same as string, but for character sequences represented as a Text value.
+
+### 24.6 Alternative
+
 
