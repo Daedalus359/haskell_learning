@@ -47,4 +47,11 @@ fail :: Monad m -> String -> m a
 
 fail is how you can indicate a failed parse.
 
+### Another Example
+
+Prelude> parseString (integer >> eof) mempty "123"
+Success ()
+
+The parser worked properly - it found an integer followed by the end of the file. The type of eof is Parsing m => m (), so the type of (integer >> eof) is Parsing m => m (), and since the type of parseString is Parser a -> Text.Trifecta.Delta.Delta -> String -> Result a, a is bound to (), and our output type is thus Result ().
+
 
