@@ -93,4 +93,31 @@ text does the same as string, but for character sequences represented as a Text 
 
 ### 24.6 Alternative
 
+class Applicative f => Alternative f where
+  
+  --the identity of (<|>)
+  empty :: f a
+
+  --should be associative
+  (<|>) :: f a -> f a -> f a
+
+  some :: f a -> f [a]
+  --one or more
+  some v = some_v
+    where
+      many_v = some_v <|> pure []
+      some_v = (fmap (:) v) <*> many_v
+
+  --zero or more
+  many :: f a -> f [a]
+  many v = many_v
+    where
+      many_v = some_v <|> pure
+      some_v = (fmap (:) v) <*> many_v
+
+Note: I don't understand the implementations of some and many as written above
+
+### QuasiQuotes
+
+Quasiquotes are a language extension. It includes a value r :: QuasiQuoter which allows writing arbitrary text inside of the delimeters [r| |]
 
