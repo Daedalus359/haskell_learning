@@ -121,3 +121,13 @@ Note: I don't understand the implementations of some and many as written above
 
 Quasiquotes are a language extension. It includes a value r :: QuasiQuoter which allows writing arbitrary text inside of the delimeters [r| |]
 
+
+### Character and token parsers
+
+Traditionally, parsing has been done in two stages: lexing and parsing.
+Lexers typically perform parses that don't require looking ahead into the input stream by more than one token at a time.
+
+Examples of tokenizing:
+
+H> parseString (some integer) mempty "123 456"
+Success [123, 456]
