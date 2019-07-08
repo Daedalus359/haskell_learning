@@ -131,3 +131,10 @@ Examples of tokenizing:
 
 H> parseString (some integer) mempty "123 456"
 Success [123, 456]
+
+### Marshalling from an AST to a datatype
+
+Marshalling describes going from a "Meaning" (such as a data value) to a Structure (such as an AST) that is serializable
+Unmarshalling allows you to go from an AST to a "Meaning", which may be what you need to do after parsing
+
+see Marshalling.hs for examples of doing this with JSON data
