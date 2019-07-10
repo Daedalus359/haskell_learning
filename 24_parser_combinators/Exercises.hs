@@ -1,8 +1,16 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
+
 module Exercises where
 
 import Text.Trifecta
 import Control.Applicative
 import Data.Maybe
+
+import Data.ByteString (ByteString)
+import Text.RawString.QQ
+
+import Test.QuickCheck
 
 --Ex 1
 --parser for semantic versions as defined by http://semver.org/
@@ -93,7 +101,15 @@ type Month = Integer
 type Day = Integer
 
 data Date = Date Year Month Day
-  deriving (Show)
+  deriving Eq
+
+instance Arbitrary Date where
+  arbitrary = liftA3 Date (fmap abs arbitrary) (elements [1..12]) (elements [1..31])
+
+instance Show Date where
+  show (Date year month day) = (show year) ++ "-" ++ (formatStr month) ++ "-" ++ (formatStr day)
+    where
+      formatStr t = if (t > 9) then (show t) else ('0' : (show t))
 
 parseDate :: Parser Date
 parseDate = do
@@ -105,21 +121,133 @@ parseDate = do
 type Hour = Integer
 type Minute = Integer
 data Time = Time Hour Minute
-  deriving (Show)
+  deriving (Eq)
+
+instance Arbitrary Time where
+  arbitrary = liftA2 Time (elements [0 .. 23]) (elements [0 .. 59])
+
+resultToMaybe :: Text.Trifecta.Result a -> Maybe a
+resultToMaybe (Text.Trifecta.Failure _) = Nothing
+resultToMaybe (Text.Trifecta.Success a) = Just a
+
+propTimeParses :: Time -> Bool
+propTimeParses t = Just t == (resultToMaybe $ parseString parseTime mempty $ show t)
+
+--just for QuickCheck exercise - not used in the Journal parser
+parseTime :: Parser Time
+parseTime = liftA2 Time integer (char ':' *> integer)
+
+instance Show Time where
+  show (Time hour minute) = (timeStr hour) ++ ":" ++ (timeStr minute)
+    where
+      timeStr t = if (t > 9) then (show t) else ('0' : (show t))
 
 data Activity = Activity Time String
-  deriving (Show)
+  deriving Eq
+
+instance Show Activity where
+  show (Activity time string) = show time ++ " " ++ (show string)
+
+instance Arbitrary Activity where
+  arbitrary = liftA2 Activity arbitrary (elements [1..30] >>= (\i -> fmap (take i) infiniteList))
 
 --modify to ignore trailing comments
 parseActivity :: Parser Activity
 parseActivity = do
   hour <- natural <* (char ':')
   minute <- natural <* spaces
-  actString <- some anyChar
+  actString <- manyTill anyChar $ (try skipEOL) <|> (try skipComment) <|> eof
   return $ Activity (Time hour minute) actString
+
+skipEOL :: Parser ()
+skipEOL = do
+  string "\n"
+  return ()
+
+skipComment :: Parser ()
+skipComment = do
+  choice [string "--", string " --"]
+  manyTill anyChar $ (try $ skipSome $ string "\n") <|> eof
+  return ()
+
+skipSpace :: Parser ()
+skipSpace = do
+  char ' '
+  return ()
+
+skipJunk :: Parser ()
+skipJunk = choice [skipSpace, skipEOL, skipComment]
+
+data DayLog = DayLog Date [Activity]
+  deriving Eq
+
+instance Show DayLog where
+  show (DayLog date activities) =
+    show date ++ "\n" ++ vertActs
+      where vertActs = concat $ fmap (++ "\n") $ fmap show activities 
+
+instance Arbitrary DayLog where
+  arbitrary = liftA2 DayLog arbitrary ((elements [1..10]) >>= (\i -> fmap (take i) (infiniteList :: Gen [Activity])))
+
+--does not support lines which are just comments in the middle of the Day Log
+parseDayLog :: Parser DayLog
+parseDayLog = do
+  date <- many skipJunk *> parseDate
+  activityResults <- some $ many skipJunk *> parseActivity
+  return $ DayLog date activityResults
+
+data Journal = Journal [DayLog]
+  deriving Eq
+
+instance Show Journal where
+  show (Journal dayLogs) = concat $ fmap (++ "\n") $ fmap show dayLogs
+
+instance Arbitrary Journal where
+  arbitrary = Journal <$> ((elements [1..10]) >>= (\i -> fmap (take i) (infiniteList :: Gen [DayLog])))
+
+parseJournal :: Parser Journal
+parseJournal = Journal <$> (some parseDayLog)
+
+propJournalParses :: Journal -> Bool
+propJournalParses j = Just j == (resultToMaybe $ parseString parseJournal mempty $ show j)
+
+dayLogEx :: String
+dayLogEx = [r|
+--leading comment
+
+--leading comment after whitespace
+# 2025-02-05
+09:00 Sanitizing Moisture Collector
+--comment only line
+09:30 second activity --comment
+10:00 third activity--comment
+|]
+
+journalEx :: String
+journalEx = [r|
+--intro comment
+
+# 1995-5-5
+09:00 Eat Breakfast
+--comment
+10:00 eat dinner--comment
+
+# 1996-5-5
+09:00 Eat lunch
+# 1997-5-5
+12:30 Eat all meals at once --comment
+|]
 
 main5 :: IO ()
 main5 = do
   let ps p s = print $ parseString p mempty s
   ps parseDate "# 2025-02-05"
-  ps parseActivity "09:00 Sanitizing moisture collector"
+  ps parseActivity "09:00 Sanitizing moisture collector\n"
+  ps parseActivity "09:00 Sanitizing moisture collector --comment to be kept\n"
+  ps skipComment "--this is a comment"
+  ps parseDayLog dayLogEx
+  ps parseJournal journalEx
+  putStrLn "checking parsing on arbitrary Time instances"
+  quickCheck propTimeParses
+  putStrLn "checking parsing on arbitrary Journal instances"
+  quickCheck propJournalParses
