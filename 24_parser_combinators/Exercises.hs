@@ -104,10 +104,10 @@ data Date = Date Year Month Day
   deriving Eq
 
 instance Arbitrary Date where
-  arbitrary = liftA3 Date (fmap abs arbitrary) (elements [1..12]) (elements [1..31])
+  arbitrary = liftA3 Date (elements [1000 .. 3000]) (elements [1..12]) (elements [1..31])
 
 instance Show Date where
-  show (Date year month day) = (show year) ++ "-" ++ (formatStr month) ++ "-" ++ (formatStr day)
+  show (Date year month day) = "# " ++ (show year) ++ "-" ++ (formatStr month) ++ "-" ++ (formatStr day)
     where
       formatStr t = if (t > 9) then (show t) else ('0' : (show t))
 
@@ -149,7 +149,7 @@ instance Show Activity where
   show (Activity time string) = show time ++ " " ++ (show string)
 
 instance Arbitrary Activity where
-  arbitrary = liftA2 Activity arbitrary (elements [1..30] >>= (\i -> fmap (take i) infiniteList))
+  arbitrary = liftA2 Activity arbitrary (elements [1..30] >>= (\i -> fmap (take i) $ fmap (filter (\c -> elem c ['a' .. 'z'])) infiniteList))
 
 --modify to ignore trailing comments
 parseActivity :: Parser Activity
@@ -176,7 +176,7 @@ skipSpace = do
   return ()
 
 skipJunk :: Parser ()
-skipJunk = choice [skipSpace, skipEOL, skipComment]
+skipJunk = try $ choice [skipSpace, skipEOL, skipComment] <?> "Skipjunk expects a space, end of line, or comment"
 
 data DayLog = DayLog Date [Activity]
   deriving Eq
@@ -192,15 +192,15 @@ instance Arbitrary DayLog where
 --does not support lines which are just comments in the middle of the Day Log
 parseDayLog :: Parser DayLog
 parseDayLog = do
-  date <- many skipJunk *> parseDate
-  activityResults <- some $ many skipJunk *> parseActivity
+  date <- (many skipJunk <?> "Failed at skipjunk") *> (parseDate <?> "Failed at Parse Date")
+  activityResults <- some $ many skipJunk *> parseActivity <?> "Failed at Parse Activity"
   return $ DayLog date activityResults
 
 data Journal = Journal [DayLog]
   deriving Eq
 
 instance Show Journal where
-  show (Journal dayLogs) = concat $ fmap (++ "\n") $ fmap show dayLogs
+  show (Journal dayLogs) = concat $ fmap (++ "\n") $ fmap show dayLogs  
 
 instance Arbitrary Journal where
   arbitrary = Journal <$> ((elements [1..10]) >>= (\i -> fmap (take i) (infiniteList :: Gen [DayLog])))
@@ -251,3 +251,18 @@ main5 = do
   quickCheck propTimeParses
   putStrLn "checking parsing on arbitrary Journal instances"
   quickCheck propJournalParses
+  --ps parseJournal pasted
+
+pasted :: String
+pasted = [r|# 2695-01-23
+14:25 "ymwrghjvrqamtddadszzyosodt"
+22:30 "gulhrmpiarptshadyvkhuochduuqj"
+17:08 "kqaepugllokphftfw"
+19:08 "fybcmejhjghmggnorbpt"
+20:40 "novtajaiqkypkli"
+10:31 "wjjqnxlbcryfnugwyrlwnpzbsoe"
+11:05 "mtlpgiglezloxhmwypn"
+20:43 "z"
+04:42 "rhgbuxn"
+04:14 "wnuogqjfhrytqybiiqxjnujy"
+|]
