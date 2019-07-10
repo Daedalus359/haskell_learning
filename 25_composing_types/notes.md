@@ -4,6 +4,7 @@ Subject of this chapter and the next - Monad Transformers
 
 Functors and Applicatives are closed under composition:
 	instance (Functor f1, Functor f2) => Functor (f1 f2) --not totaly sure I got the syntax right here
+		--basically, (fmap . fmap) get all the way inside something of type (f g a) to apply a function of type (a -> b)
 	instance (Applicative f1, Applicative f2) => Applicative (f1 f2)
 
 Monads are not closed under composition, meaning that composing type monads *might* not result in another monad. It will result in a type which is still a Functor and an Applicative, per the above laws.
@@ -62,4 +63,38 @@ g ~ Maybe
 a ~ Char
 
 ### Composing Functors
+
+instance Functor Identity where
+  fmap f (Identity a) = Identity (f a)
+
+instance (Functor f, Functor g) => Functor (Compose f g) where --this means we need to be able to fmap types down to 
+  fmap f (Compose fga) = Compose $ (fmap . fmap) f fga
+
+this lets you do something like:
+fmap (+1) (Compose [Just 1, Nothing])
+
+whereas without Compose you would use (fmap . fmap) to explicitly go through one layer
+
+This works for other types which take even more type parameters than Identity and Compose
+
+The fact that the above instance (functor for Compose) exists is what makes *functors closed under composition*
+
+### Composing Applicatives
+
+Similar to the Functor instance, there is an instance of Applicative for Compose whenever its first two type parameters have instances of Applicative for themselves.
+
+See ComposeInstances which can be used to run, for example:
+Haskell> let a1 = Compose (Just [(+1), (+7)])
+Haskell> let a2 = Compose $ Just [1,3]
+Haskell> a1 <\*> a2 --the actual apply snytax messes with Markdown for some reason, so dont type a backslash if copying from plain text
+Compose {getCompose = Just [2,4,8,10]}
+
+### Composing Monads (or Trying, anyway)
+
+It is **not possible** to write a generic Monad instance for (Compose f1 f2), even if we know that (Monad f1, Monad f2) holds.
+
+We would need to write (>>=) :: Compose f g a -> (a -> Compose f g b) -> Compose f g b
+Compose fga >>= aToCfgb = **???** --this is **impossible**. See http://web.cecs.pdx.edu/~mpj/pubs/RR-1004.pdf
+
+The solution turns out to be **monad transformers**, coming next
 
