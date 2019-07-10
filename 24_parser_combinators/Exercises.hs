@@ -146,7 +146,7 @@ data Activity = Activity Time String
   deriving Eq
 
 instance Show Activity where
-  show (Activity time string) = show time ++ " " ++ (show string)
+  show (Activity time string) = show time ++ " " ++ string
 
 instance Arbitrary Activity where
   arbitrary = liftA2 Activity arbitrary (elements [1..30] >>= (\i -> fmap (take i) $ fmap (filter (\c -> elem c ['a' .. 'z'])) infiniteList))
@@ -192,8 +192,8 @@ instance Arbitrary DayLog where
 --does not support lines which are just comments in the middle of the Day Log
 parseDayLog :: Parser DayLog
 parseDayLog = do
-  date <- (many skipJunk <?> "Failed at skipjunk") *> (parseDate <?> "Failed at Parse Date")
-  activityResults <- some $ many skipJunk *> parseActivity <?> "Failed at Parse Activity"
+  date <- try $ (many skipJunk <?> "Failed at skipjunk") *> (parseDate <?> "Failed at Parse Date")
+  activityResults <- some $ try $ many skipJunk *> parseActivity <?> "Failed at Parse Activity"
   return $ DayLog date activityResults
 
 data Journal = Journal [DayLog]
@@ -252,17 +252,3 @@ main5 = do
   putStrLn "checking parsing on arbitrary Journal instances"
   quickCheck propJournalParses
   --ps parseJournal pasted
-
-pasted :: String
-pasted = [r|# 2695-01-23
-14:25 "ymwrghjvrqamtddadszzyosodt"
-22:30 "gulhrmpiarptshadyvkhuochduuqj"
-17:08 "kqaepugllokphftfw"
-19:08 "fybcmejhjghmggnorbpt"
-20:40 "novtajaiqkypkli"
-10:31 "wjjqnxlbcryfnugwyrlwnpzbsoe"
-11:05 "mtlpgiglezloxhmwypn"
-20:43 "z"
-04:42 "rhgbuxn"
-04:14 "wnuogqjfhrytqybiiqxjnujy"
-|]
