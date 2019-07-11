@@ -22,3 +22,15 @@ instance Monad m => Monad (EitherT e m) where
       Right a -> runEitherT $ aToEtb a
         --aToEtb a :: EitherT e m b
         --runEitherT $ aToEtb a :: m (Either e a)
+
+--write swapEitherT helper function (Ex 4 from 26.3)
+swapEitherT :: (Functor m) => EitherT e m a -> EitherT a m e
+swapEitherT = EitherT . (fmap swapEither) . runEitherT
+
+swapEither :: Either e a -> Either a e
+swapEither (Left e) = Right e
+swapEither (Right a) = Left a
+
+--write the transformer version of the either catamorphism (Ex 5 from 26.3)
+eitherT :: Monad m => (e -> m c) -> (a -> m c) -> EitherT e m a -> m c
+eitherT fe fa e = runEitherT e >>= (either fe fa)

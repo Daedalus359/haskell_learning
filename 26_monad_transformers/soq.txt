@@ -1,0 +1,66 @@
+I am attempting to write the solution to Haskell Programming from First Principles - 26.3 - Ex 5.
+
+The problem is to write a version of the either catamorphism which works on the monad transformer variant, EitherT. The type of the function should be:
+
+```
+eitherT :: Monad m => (e -> m c) -> (a -> m c) -> EitherT e m a -> m c
+```
+
+For reference, here is the EitherT newtype as defined in the book:
+
+```
+newtype EitherT e m a = --why does the book use e a for the type parameters instead of a b? Error type?
+  EitherT {runEitherT :: m (Either e a)}
+```
+
+In addition, I have a working `instance Monad m => Monad (EitherT e m)`,  as well as Functor and Applicative before it.
+
+The type signature given in the problem statement suggests that I will need to use the Monadic functionality of m, or possibly of (EitherT e m). However, I wrote a version that only uses fmap which I thought would work:
+
+```
+eitherT :: Monad m => (e -> m c) -> (a -> m c) -> EitherT e m a -> m c
+eitherT fe fa = fmap (either fe fa) . runEitherT
+```
+
+This does not compile. Specifically, the compiler is complaining that I have constructed the infinite type c ~ mc (full output below). I will take this as yet another clue that the problem is meant to be solved with some monadic function. However, I would like to understand where my approach is adding in that structure. So far, I can't.
+
+Here is my reasoning for the code I wrote:
+1. `runEitherT :: EitherT e m a -> m (Eihter e a)`
+2. `either fe fa :: Either e a -> c`
+3. `fmap (either fe fa) :: m (Either e a) -> m c`
+4. `fmap (either fe fa) . runEitherT :: EitherT e m a -> m c`
+
+This seems to match exactly what the type should be for `eitherT fe fa`.
+
+Can someone point out where I have gone wrong?
+
+The full error message:
+```
+ Haskell> :l EitherT.hs 
+[1 of 1] Compiling EitherT          ( EitherT.hs, interpreted )
+
+EitherT.hs:36:17: error:
+    * Occurs check: cannot construct the infinite type: c ~ m c
+      Expected type: EitherT e m a -> m c
+        Actual type: EitherT e m a -> m (m c)
+    * In the expression: fmap (either fe fa) . runEitherT
+      In an equation for `eitherT':
+          eitherT fe fa = fmap (either fe fa) . runEitherT
+    * Relevant bindings include
+        fa :: a -> m c (bound at EitherT.hs:36:12)
+        fe :: e -> m c (bound at EitherT.hs:36:9)
+        eitherT :: (e -> m c) -> (a -> m c) -> EitherT e m a -> m c
+          (bound at EitherT.hs:36:1)
+   |
+36 | eitherT fe fa = fmap (either fe fa) . runEitherT
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Failed, no modules loaded.
+```
+
+Well, I figured out the answer while I was reviewing my question's formatting. In case it helps anyone else, here it is:
+
+My solution works if the types of `fe` and `fa` were of the form `(a -> c)` rather than `(a -> m c)`.
+
+Changing the type signature to reflect that lets the code compile. The specific flaw in my reasoning is in step 2, which should have read:
+
+2 `either fe fa :: Either e a -> m c`
