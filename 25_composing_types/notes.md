@@ -98,3 +98,35 @@ Compose fga >>= aToCfgb = **???** --this is **impossible**. See http://web.cecs.
 
 The solution turns out to be **monad transformers**, coming next
 
+### Monad Transformers
+
+In order to make Join happen for a composed pair of Monads, we need to have concrete information about at least one of the Monads involved.
+From what I have seen, I'm guessing that a Monad transformer will exist for each of the Monads that we need to be on the ouside in these circumstances.
+
+As a concrete motivation, how could we automatically derive a bind instance for IO (Reader String [a])?
+
+You could define a newtype for each combination of Monads you want. This is **inneficient**. The **better way** relies on the fact that we can make a Monad instance for the equivalent of (m1 (m2 x)) using only m1. Keep in mind that this works for longer strings of monads because we are already assuming that m1 is applied to a type which is itself a fully applied monad. It means that you need one transformer type for each of the Monads you would want to put in a chain like this. This is a huge improvement over making custom newtypes, where the number of instances you would need for any chain of n monads would grom combinatorially with n.
+
+### IdentityT
+
+IdentityT is a very simple Monad transformer, in the same way that Identity made for a simple Functor, Applicative, and Monad.
+
+compare regular old Identity with its monad transformer variant:
+
+newtype Identity a =
+  Identity {runIdentity :: a}
+  deriving (Eq, Show)
+
+newtype IdentityT f a =
+  IdentityT {runIdentityT :: f a}
+  deriving (Eq, Show)
+
+initial impressions: since f a must be a concrete type, I think f must have kind (\* -> \*) . Effectively, you could hold a string in an IdentityT and call it an IdentityT [] Char. So far, it remains unclear how this is more useful than regular Identity.
+
+See IdentityT.hs for the implementation (as a side note, I was able to implement everything myself with only a reminder to use runIdentityT in my instance of bind).
+
+Due to the nature of Identity, we can't do much with IdentityT other than stuff we could already do with the types it contains.
+
+Using **runIdentityT** was the key to writing its instance of bind. This is indicative of why monad transformers are necessary in general. We need to know about the outer Monad type in order to get inside of it when that becomes necessary in the bind implementation.
+
+### Finding a pattern
