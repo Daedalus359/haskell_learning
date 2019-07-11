@@ -129,4 +129,8 @@ Due to the nature of Identity, we can't do much with IdentityT other than stuff 
 
 Using **runIdentityT** was the key to writing its instance of bind. This is indicative of why monad transformers are necessary in general. We need to know about the outer Monad type in order to get inside of it when that becomes necessary in the bind implementation.
 
-### Finding a pattern
+### 25.9 Finding a pattern
+
+Monad transformers are used when you want the ability to run (>>=) on a type composed from two or more monads, and get all the way to the type at the bottom rather than going "one level down".
+
+The closest we can get to this without using any concrete information about the types (beyond knowing that their monad instances exist) is a type f (g (f b)) for composed monads f and g, and for a function of type (a -> g (f b)). Using concrete type information gives us more tools, and often (not aslways, I assume?) enables us to get all the way to g (f b). For a concrete example of this, note that **fa >>= (runIdentityT . aToITFB) :: f** does the job in Identity.hs, but without being able to add **((.) runIdentityT)** , the expression would have the f (g (f b)) issue.
