@@ -16,3 +16,6 @@ See MaybeT.hs
 
 Something important that IdentityT doesn't make clear is that these "MonadT" types are putting their namesake monad **inside** the polymorphic monad type
 For examples of this, see MaybeT.hs and EitherT.hs
+
+### 26.4 ReaderT
+
