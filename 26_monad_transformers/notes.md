@@ -48,3 +48,14 @@ A Thunk is an unevaluated value.
 The obvious way to implement **ListT** is also bad, as it has several issues with lawfulness and speed. Libraries like pipes and conduit supposedly do this job well.
 
 ### 26.7 An ordinary type from a transformer
+
+If you want to use the transformer ("MonadT") variant of some monad **as if it were the original monad**, you can do so by applying it to a monad type that does nothing. **Identity** is just such a type.
+
+Why would we need to do this? For many types of transformers, you don't. Some transformer types don't have a corresponding non-transformer to use, though. Plugging in Identity lets you quickly make your own in a situation like that. A concrete example of using **ReaderT Identity** when you need Reader-like functionality and you are working in the scotty framework.
+
+Other info: the **transformers** library and **base** have high quality monad transformers, so don't make your own without a good reason.
+
+If you ever see EitherT from the either library in the wild, bear in mind that people are phasing it out for the ExceptT type in **transformers**.
+
+### 26.8 Lexically Inner is Structurally Outer
+
