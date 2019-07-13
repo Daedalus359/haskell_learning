@@ -59,3 +59,69 @@ If you ever see EitherT from the either library in the wild, bear in mind that p
 
 ### 26.8 Lexically Inner is Structurally Outer
 
+Note that in the transformer instances, the monad parameter m winds up on the **outside** of whatever base monad type corresponds to the transformer. For example:
+
+newtype EitherT e m a =
+  EitherT {runEitherT :: m (Either e a)}
+
+Note that EitherT is the outermost type constructor, but the value has Either inside m. This pattern is necessary to how transformers work. In some cases, part of the base monad type still winds up on the outside. For example:
+
+newtype ReaderT r m a =
+  ReaderT {runReaderT :: r -> m a}
+
+The explanation offered here is that the monad m gets wrapped around things we "have" (m a, I guess), rather than things we "need" (r?).
+
+Haskellers usually call the structurally outermost type the **base monad**. For example the base monad is IO in the following:
+
+type MyType a = IO [Maybe a]
+
+### 26.9 MonadTrans
+
+fmap, liftA, and liftM all do the same thing: they *lift* a function into a higher context.
+
+For some other lifting needs, we have the **MonadTrans** typeclass:
+
+class MonadTrans t where
+  lift :: (Monad m) => m a -> t m a
+
+This is somewhat like return / pure, except that it puts an entire monad into your MonadTrans-implementing type. See EitherT.hs and StateT.hs for implementation example exercises. My approach to both exercises was derived from looking at my pure instances for those same types.
+
+Some (**bad**) code puts together a monad transformer stack from a low-level monad one layer at a time, resulting in expressions that include "lift $ lift $ lift $ ... ". Don't do that. Rather, write a newtype which hides away all of the transformer layers in your type. Then, you can put a type in with a single **lift**.
+
+Why not just put that monad type inside with a single **return**? Return does not involve the value it accepts into the chain of Monads in your transformer stack. As a result, you data would be the wrong shape, and you would need to lift in functions that operate on an (m a) rather than just putting in the functions on a that you probably want to use, as that's a big part of what makes monad transformers useful in the first place.
+
+### 26.10 MonadIO aka zoom-zoom
+
+MonadIO is another typeclass that provides a similar kind of functionality to MonadTrans, but it helps you to automatically lift to an outermost IO layer (via a **liftIO** function) all at once.
+
+For example, you could use liftIO to do IO in the following contexts:
+
+liftIO :: IO a -> StateT s IO a --not too hard to do with MonadTrans
+liftIO :: IO a -> --now you are saving some time
+       -> ExceptT
+            e
+            (StateT s (ReaderT r IO))
+            a
+
+Here is the typeclass definition:
+
+class Monad m => MonadIO m where
+  liftIO :: IO a -> m a
+
+Here are some laws that a good instance should obey:
+  1. liftIO . return = return
+  2. liftIO (m >>= f) = liftIO m >>= (liftIO . f)
+
+2 seems to be saying that the behavior of your IO interactions should be preserved which side of the lifting those interactions happen on.
+
+How can liftIO do this? Looking at the example instances listed, it seems that you need to have liftIO instances for your monad parameters as well. Then, liftIO instances happen by calling liftIO to the next level down and then composing that with an operation (such as lift) that gets you up the last level of structure:
+
+instance (MonadIO m) => MonadIO (IdentityT m) where
+  liftIO = IdentityT . liftIO
+
+instance (MonadIO m) => MonadIO (EitherT e m) where
+  liftIO = lift . liftIO
+
+see MaybeT.hs, ReaderT.hs, and StateT.hs for implementations of MonadIO I did as exercises there.
+
+### 26.11 Monad transformers in use

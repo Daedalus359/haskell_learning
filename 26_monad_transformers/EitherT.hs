@@ -1,5 +1,7 @@
 module EitherT where
 
+import Control.Monad.Trans.Class
+
 newtype EitherT e m a = --why does the book use e a for the type parameters instead of a b? Error type?
   EitherT {runEitherT :: m (Either e a)}
 
@@ -22,6 +24,9 @@ instance Monad m => Monad (EitherT e m) where
       Right a -> runEitherT $ aToEtb a
         --aToEtb a :: EitherT e m b
         --runEitherT $ aToEtb a :: m (Either e a)
+
+instance MonadTrans (EitherT e) where
+  lift = EitherT . (fmap Right)
 
 --write swapEitherT helper function (Ex 4 from 26.3)
 swapEitherT :: (Functor m) => EitherT e m a -> EitherT a m e

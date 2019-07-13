@@ -1,5 +1,7 @@
 module ReaderT where
 
+import Control.Monad.IO.Class
+
 newtype ReaderT r m a =
   ReaderT {runReaderT :: r -> m a}
 
@@ -31,3 +33,6 @@ instance Monad m => Monad (ReaderT r m) where
 
 --let frma :: Monad m => r -> m a; frma = undefined
 --let aToRmb :: Monad m => a -> ReaderT r m b; aToRmb = undefined
+
+instance (MonadIO m) => MonadIO (ReaderT r m) where
+  liftIO = ReaderT . const . liftIO

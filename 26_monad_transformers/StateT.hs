@@ -1,6 +1,8 @@
 module StateT where
 
 import Control.Applicative
+import Control.Monad.Trans.Class
+import Control.Monad.IO.Class
 
 newtype StateT s m a =
   StateT {runStateT :: s -> m (a, s)}
@@ -28,3 +30,8 @@ instance Monad m => Monad (StateT s m) where
       --runStateT $ faSTsmb a :: s -> m (b, s)
       --(runStateT $ faSTsmb a) s :: m (b, s)
 
+instance MonadTrans (StateT s) where
+  lift m = StateT $ \s -> fmap (\a -> (a, s)) m
+
+instance MonadIO m => MonadIO (StateT s m) where
+  liftIO = lift . liftIO

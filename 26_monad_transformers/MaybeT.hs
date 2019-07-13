@@ -1,5 +1,7 @@
 module MaybeT where
 
+import Control.Monad.IO.Class
+
 newtype MaybeT m a =
   MaybeT {runMaybeT :: m (Maybe a)}
 
@@ -27,3 +29,6 @@ instance (Monad m) => Monad (MaybeT m) where
     --pure aToMTmb :: Maybe (a -> MaybeT m b)--for Maybe's instance of pure
     --fmap runMaybeT (pure aToMTmb) :: Maybe (a -> m (Maybe b))
     --fmap (>>=) ma <*> (pure aToMTmb)
+
+instance (MonadIO m) => MonadIO (MaybeT m) where
+  liftIO = MaybeT . fmap Just . liftIO
