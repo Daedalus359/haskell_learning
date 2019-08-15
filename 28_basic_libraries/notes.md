@@ -114,3 +114,19 @@ ST can be thoght of as Mutable State, or as IO restricted to safe mutation
 
 see Lazy Functional State Threads; John Launchbury and Simon Peyton Jones
 
+### String Types
+
+**String** = [Char]
+
+time taken to do a character lookup increases with the length of the String
+
+**Text** has more compact representation in memory and more efficient indexing compared to String
+
+Text is encoded as UTF-16
+
+**ByteString** is a data type not necessarily associated with text or strings. It holds sequences of bytes.
+
+It's good to use if you actually need to work with the bytes instead of text. If you do, it is easy to create bytestrings in source via the **OverloadedStrings** extension
+
+Note that the **Char8** module from the *bytestring* library is for ASCII data, and will cause issues if you try to use it with Unicode encoded text. This is troublesome because Unicode and ASCII encodings overlap for english, so the bug can go undetected until a Unicode character with no ASCII encoding gets passed in.
+
