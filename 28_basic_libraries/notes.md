@@ -130,3 +130,6 @@ It's good to use if you actually need to work with the bytes instead of text. If
 
 Note that the **Char8** module from the *bytestring* library is for ASCII data, and will cause issues if you try to use it with Unicode encoded text. This is troublesome because Unicode and ASCII encodings overlap for english, so the bug can go undetected until a Unicode character with no ASCII encoding gets passed in.
 
+### Exercises
+
+see DifferenceList.hs and
