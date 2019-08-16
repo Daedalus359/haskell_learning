@@ -25,3 +25,8 @@ Faster persistent data structures through hashing; Johan Tibell
 
 Applicative Programming with Effects; Conor McBride and
 Ross Paterson.
+
+IO as explained by Brent Yorgey http://www.cis.upenn.edu/~cis194/spring13/lectures/08-IO.html
+
+Simon Peyton Jones on how Haskell collides with real world issues http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/mark.pdf
+
